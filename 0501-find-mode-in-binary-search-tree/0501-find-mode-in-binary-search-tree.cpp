@@ -10,32 +10,30 @@
  * };
  */
 class Solution {
+    private:
+        void inorder(TreeNode* root,vector<int>& ans){
+            if(!root) return;
+            ans.push_back(root->val);
+            inorder(root->left,ans);
+             inorder(root->right,ans);
+        }
 public:
-    void fun(TreeNode* root, unordered_map<int,int>&mp){
-        if(root==NULL) return;
-        
-        mp[root->val]++;
-        fun(root->left,mp);
-        fun(root->right,mp);
-        
-    }
-    
     vector<int> findMode(TreeNode* root) {
-       unordered_map<int,int>mp;
-        fun(root,mp);
-        
         vector<int>v;
+        inorder(root,v);
+        unordered_map<int,int>mp;
         int maxi=0;
         
-        for(auto &i:mp){
-            if(i.second>maxi)
-                maxi=i.second;
+        for(int val:v){
+            mp[val]++;
+            
+            maxi=max(maxi,mp[val]);
         }
-        
-        for(auto &i:mp){
-            if(i.second==maxi)
-                v.push_back(i.first);
+        vector<int>ans;
+        for(const auto& x:mp){
+            if(x.second==maxi)
+                ans.push_back(x.first);
         }
-        return v;
+        return ans;
     }
 };
