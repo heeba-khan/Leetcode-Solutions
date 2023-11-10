@@ -1,8 +1,10 @@
 class Solution {
 public:
+    int Chebyshev(int sx, int sy, int fx, int fy){
+        return max(abs(sx-fx), abs(sy-fy) );
+    }
     bool isReachableAtTime(int sx, int sy, int fx, int fy, int t) {
-        int x=abs(sx-fx),y=abs(sy-fy);
-        if(x==0&&y==0&&t==1) return false;
-        return (min(x,y)+abs(x-y))<=t;
+        int d=Chebyshev(sx, sy, fx, fy);
+        return d>0 ? t>=d: t!=1;
     }
 };
