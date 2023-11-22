@@ -1,31 +1,27 @@
 class Solution {
 public:
-    int fun(vector<int>& nums){
+    int rob1(vector<int>& nums) {
         int n=nums.size();
-        
-        vector<int>v(n);
-        
-        v[0]=nums[0];
-        v[1]=max(nums[0],nums[1]);
-        
-        for(int i=2;i<n;i++){
-            v[i]=max(v[i-1],v[i-2]+nums[i]);
+        int prev=nums[0];
+        int prev2=0;
+        for(int i=1;i<n;i++){
+            int pick=nums[i];
+            if(i>1) pick+=prev2;
+            int notpick=0+prev;
+            int curri=max(pick,notpick);
+            prev2=prev;
+            prev=curri;
         }
-        return v.back();
+        return prev;
     }
-    
     int rob(vector<int>& nums) {
-       int n=nums.size();
-        
+        int n=nums.size();
         if(n==1) return nums[0];
-        
-        else if(n==2) return max(nums[0],nums[1]);
-        
-        vector<int>nums1(nums.begin()+1,nums.end());
-        vector<int>nums2(nums.begin(),nums.end()-1);
-        
-        return max(fun(nums1),fun(nums2));
-        
-        
+        vector<int>v1,v2;
+        for(int i=0;i<n;i++){
+            if(i!=0) v1.push_back(nums[i]);
+            if(i!=n-1) v2.push_back(nums[i]);
+        }
+        return max(rob1(v1),rob1(v2));
     }
 };
