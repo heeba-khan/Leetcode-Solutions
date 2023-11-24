@@ -1,25 +1,17 @@
 class Solution {
 public:
-    int uniquePathsWithObstacles(std::vector<std::vector<int>>& obstacleGrid) {
-        if (obstacleGrid.empty() || obstacleGrid[0].empty() || obstacleGrid[0][0] == 1) {
-            return 0;
-        }
-        
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
-        
-        std::vector<int> previous(n, 0);
-        std::vector<int> current(n, 0);
-        previous[0] = 1;
-        
-        for (int i = 0; i < m; i++) {
-            current[0] = obstacleGrid[i][0] == 1 ? 0 : previous[0];
-            for (int j = 1; j < n; j++) {
-                current[j] = obstacleGrid[i][j] == 1 ? 0 : current[j-1] + previous[j];
-            }
-            previous = current;
-        }
-        
-        return previous[n-1];
+vector<vector<int>>memo;
+    int helper(vector<vector<int>>&grid,int i,int j){
+        if(i<0||j<0||i>=grid.size()||j>=grid[0].size()||grid[i][j])return 0;
+        if(i==grid.size()-1&&j==grid[0].size()-1)return 1;
+        if(memo[i][j]!=-1)return memo[i][j];
+        int a=helper(grid,i,j+1);
+        int b=helper(grid,i+1,j);
+        return memo[i][j]= a+b;
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        memo.resize(obstacleGrid.size(),vector<int>(obstacleGrid[0].size(),-1));
+        return helper(obstacleGrid,0,0);
     }
 };
+
