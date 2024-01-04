@@ -1,33 +1,20 @@
 class Solution {
 public:
-    
     int minOperations(vector<int>& nums) {
-     
-        int n = nums.size();
-        int cnt = 0;
-        unordered_map<int,int> mp;
+        int n=nums.size();
+        int ans=0;
         
-        for(int i=0; i<n; i++){
-            mp[nums[i]]++; 
+        unordered_map<int,int>mp;
+        
+        for(auto i:nums){
+            mp[i]++;
         }
         
-        for(auto it: mp){
-            int val = it.second;
-            
-            if(val==1) return -1;
-            
-            if(val%3==0) cnt += (val/3);
-            else{
-                if(val%3==1){
-                    cnt += val/3 + 1;
-                } 
-                else if(val%3==2){
-                    cnt += val/3 + 1;
-                }
-            }
+        for(auto x:mp){
+            int t=x.second;
+            if(t==1) return -1;
+            ans+=t/3+(t%3+1)/2;
         }
-        
-        return cnt;
-        
+        return ans;
     }
 };
