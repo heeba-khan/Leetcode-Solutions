@@ -3,7 +3,6 @@ public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
         int n=arr.size();
         vector<int>dp(n+1,0);
-        
         for(int ind=n-1;ind>=0;ind--){
             int len=0;
             int maxi=INT_MIN;
@@ -13,7 +12,7 @@ public:
                 len++;
                 maxi=max(maxi,arr[j]);
                 int sum=len*maxi+dp[j+1];
-                ans=max(ans,sum);
+                ans=max(sum,ans);
             }
             dp[ind]=ans;
         }
