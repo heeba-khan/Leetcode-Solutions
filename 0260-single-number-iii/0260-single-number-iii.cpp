@@ -1,23 +1,22 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-     vector<int>v;
-        int p=0;
-        map<int,int> mp;
-        for(auto x: nums){ mp[x]++; }
-        // while(p!=0)
+       int p=0;
+        for(int num:nums)
+        p^=num;
         
-             for(auto i=mp.begin();i!=mp.end();i++){
-            if(i->second==1){
-                v.push_back(i->first);
-                p++;
-                if(p==2){
-                     return v;
-                }
-               
-            }
+        unsigned int lowestbit=p&-(unsigned int)p;
+        
+        vector<int>v(2,0);
+        
+        for(int num:nums){
+            if((lowestbit & num)==0)
+                v[0]^=num;
+            
+            else 
+                v[1]^=num;
         }
-        
-        return {};
+        return v;
     }
 };
+
