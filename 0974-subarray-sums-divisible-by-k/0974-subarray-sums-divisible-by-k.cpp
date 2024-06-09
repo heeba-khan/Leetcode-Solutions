@@ -1,15 +1,65 @@
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-        unordered_map<int,int> m;
-        int sum=0,ans=0;
-        m[0]=1;
-        for(int n:nums){
-            sum=((sum+n)%k+k)%k;
-            m[sum]++;
-            if(m[sum]>1)
-            ans+=m[sum]-1;
+        int n=nums.size();
+        unordered_map<int,int>mp;
+        mp[0]=1;
+        int cnt=0;
+        int sum=0;
+        
+        for(int num:nums)
+        {
+            sum+=num;
+            
+            int mod=sum%k;
+            
+            if(mod<0)
+                mod+=k;
+            
+            if(mp.find(mod)!=mp.end())
+               { 
+                cnt+=mp[mod];
+                mp[mod]+=1;}
+            
+            else{
+                mp[mod]=1;
+            }
         }
-        return ans;
+        return cnt;
     }
 };
+
+
+// class Solution {
+// public:
+//     int subarraysDivByK(std::vector<int>& nums, int k) {
+//         // Initialize count of subarrays, prefix sum, and hash map for remainders
+//         int count = 0;
+//         int prefixSum = 0;
+//         std::unordered_map<int, int> prefixMap;
+//         prefixMap[0] = 1; // To handle subarrays that start from the beginning
+
+//         for (int num : nums) {
+//             // Update prefix sum
+//             prefixSum += num;
+            
+//             // Calculate the remainder of the prefix sum divided by k
+//             int mod = prefixSum % k;
+            
+//             // Adjust negative remainders to be positive
+//             if (mod < 0) {
+//                 mod += k;
+//             }
+            
+//             // If this remainder has been seen before, it means there are subarrays ending here that are divisible by k
+//             if (prefixMap.find(mod) != prefixMap.end()) {
+//                 count += prefixMap[mod];
+//                 prefixMap[mod] += 1;
+//             } else {
+//                 prefixMap[mod] = 1;
+//             }
+//         }
+        
+//         return count; // Total number of subarrays divisible by k
+//     }
+// };
